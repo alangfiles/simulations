@@ -1,7 +1,5 @@
 const NUM_BOXES = 10;
 
-
-
 let boxes = Array.from({length: NUM_BOXES}, (v, i) => i+1).sort((a,b)=>Math.random()>0.5);
 
 function randomizeBoxes(){
@@ -14,7 +12,7 @@ function chooseBoxes(place) {
 	let boxToCheck = place;
 	const goal = place;
 
-	while(tries <= Math.floor(NUM_BOXES/2){
+	while(tries <= Math.floor(NUM_BOXES/2)){
 		if(boxes[boxToCheck] == goal) {
 			return tries;
 		}
