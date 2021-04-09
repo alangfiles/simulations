@@ -1,18 +1,20 @@
 const NUM_BOXES = 10;
 
-let boxes = Array.from({length: NUM_BOXES}, (v, i) => i+1).sort((a,b)=>Math.random()>0.5);
+let boxes = Array.from({length: NUM_BOXES}, (v, i) => i).sort((a,b)=>Math.random()>0.5);
 
 function randomizeBoxes(){
-	boxes = Array.from({length: NUM_BOXES}, (v, i) => i+1).sort((a,b)=>Math.random()>0.5);
+	boxes = Array.from({length: NUM_BOXES}, (v, i) => i).sort((a,b)=>Math.random()>0.5);
 }
 
 function chooseBoxes(place) {
-	
+
+	const MAX_TRIES = Math.floor(NUM_BOXES/2);
+
 	let tries = 1;
 	let boxToCheck = place;
 	const goal = place;
 
-	while(tries <= Math.floor(NUM_BOXES/2)){
+	while(tries <= MAX_TRIES){
 		if(boxes[boxToCheck] == goal) {
 			return tries;
 		}
@@ -24,7 +26,7 @@ function chooseBoxes(place) {
 
 function runPrisoners() {
 	randomizeBoxes();
-	const prisoners = Array.from({length: NUM_BOXES}, (v, i) => i+1);
+	const prisoners = Array.from({length: NUM_BOXES}, (v, i) => i);
 
 	let foundBox = [];
 
@@ -37,19 +39,27 @@ function runPrisoners() {
 	return foundBox;
 }
 
-function tryTilSuccess() {
-	let numTries = 0;
-	let result = false;
-	while(!result && numTries < 10000) {
+function multipleTrials(num_tries) {
+
+	let success = 0;
+	let fail = 0;
+
+	let tries = 0;
+
+	while(tries < num_tries) {
 		let test = runPrisoners();
 		if(test.indexOf(false) == -1) {
-			result = true;
+			success += 1;
+		} else {
+			fail += 1;
 		}
 
-		numTries += 1;
+		tries += 1;
 	}
 
-	return numTries;
+	console.log(`Out of ${num_tries} runs, there were ${success} successes, at ${success/num_tries*100}%`);
+
+	//return numTries;
 	
 }
 
